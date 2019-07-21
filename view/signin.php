@@ -1,4 +1,18 @@
+<?php
+if (!isset($_POST['submit'])) {
+    die('');
+} else {
+    require_once ("");
+    $name = $_POST['username'];
+    $pass = md5($_POST['pass']);
+    $signin_user = new \Web\Controller\User\SignIn();
+    $user = $signin_user->signIn();
+}
 
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +47,7 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form name="login" class="login100-form validate-form" method="post" action="../../Controller/checkUser.php" >
+            <form name="login" class="login100-form validate-form" method="post" action="signin.php" >
 					<span class="login100-form-title p-b-45">
                         LOGIN
 					</span>
