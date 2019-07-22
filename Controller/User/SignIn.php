@@ -1,7 +1,7 @@
 <?php
 namespace Web\Controller\User;
 use Web\Model\User\User;
-
+include '../../Model/User/User.php';
 class SignIn
 {
     protected $user;
@@ -18,7 +18,7 @@ class SignIn
     public function signIn($postData)
     {
         $user = $this->getUser($postData);
-        $username = $user->getData('username');
+        //$username = $user->getData('username');
         //
     }
     public function getUser($data)

@@ -1,3 +1,51 @@
+<?php
+if (isset($_POST['submit'])) {
+    require_once ("../Model/Database/Connection.php");
+
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['password']);
+    $rePass = trim($_POST['re_password']);
+
+    $result = new \Web\Model\Database\Connection();
+    if($result->getRow("SELECT username FROM User WHERE username ='$name'")) {
+        echo "<script>";
+        echo "alert('Tên người dùng đã tồn tại, vui lòng chọn tên khác');";
+        echo "window.location.assign('signup.php');";
+        echo "</script>";
+        exit;
+    }
+    if($result->getRow("SELECT email FROM User WHERE email ='$email'")) {
+        echo "<script>";
+        echo "alert('Email này đã được sử dụng, vui lòng chọn email khác');";
+        echo "window.location.assign('signup.php');";
+        echo "</script>";
+        exit;
+    }
+    if($pass != $rePass) {
+        echo "<script>";
+        echo "alert('Mật khẩu nhập lại bị sai, vui lòng kiểm tra lại');";
+        echo "window.location.assign('signup.php');";
+        echo "</script>";
+        exit;
+    }
+    $addUser = $result->query("INSERT INTO User (username, pass, email) VALUES ('$name', '$pass', '$email')");
+
+    if($addUser) {
+        echo "<script>";
+        echo "alert('Đăng kí thành công, vui lòng đăng nhập lại');";
+        echo "window.location.assign('signin.php');";
+        echo "</script>";
+    } else {
+        echo "<script>";
+        echo "alert('Đăng kí thất bại, vui lòng đăng kí lại');";
+        echo "window.location.assign('signup.php');";
+        echo "</script>";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +80,7 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
         <div method="POST" id="signup-form" class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form class="login100-form validate-form" method="post" action="../../Controller/addUser.php">
+            <form class="login100-form validate-form" method="post" action="signup.php">
                 <span class="login100-form-title p-b-45">
                     CREATE ACCOUNT
                 </span>

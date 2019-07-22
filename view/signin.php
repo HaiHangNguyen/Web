@@ -1,15 +1,18 @@
 <?php
-if (!isset($_POST['submit'])) {
-    die('');
-} else {
-    require_once ("");
-    $name = $_POST['username'];
-    $pass = md5($_POST['pass']);
-    $signin_user = new \Web\Controller\User\SignIn();
-    $user = $signin_user->signIn();
+if (isset($_POST['login'])) {
+
+    require_once ("../Model/Database/Connection.php");
+    $name = trim($_POST['username']);
+    $pass = trim($_POST['pass']);
+    $result = new \Web\Model\Database\Connection();
+    if($result->getRow("SELECT username, pass FROM User WHERE username ='$name' AND pass = '$pass'")) {
+        session_start();
+        $_SESSION["userName"] = $name;
+        header("Location:../index.php");
+    } else {
+        header("Location:signin.php");
+    }
 }
-
-
 
 
 ?>
@@ -73,7 +76,7 @@ if (!isset($_POST['submit'])) {
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn">
+                        <button type="submit" name="login" class="login100-form-btn">
                             Login
                         </button>
                     </div>

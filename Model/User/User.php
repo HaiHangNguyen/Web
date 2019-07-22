@@ -14,14 +14,25 @@ class User
     public function getData($key) {
         return $this->_data[$key];
     }
+
     public function load($id)
     {
         $userData = $this->_connection->get($id, static::USER_TABLE_NAME);
         $this->_data = $userData;
         return true;
     }
-    public function save()
-    {
+
+    public function loadLogin($usn, $pass, $tbn) {
+        $userData = $this->_connection->findUserInLogin($usn, $pass, $tbn);
+        $this->_data = $userData;
+        return $userData;
     }
+
+    public function save($username, $pass) {
+
+    }
+
+
+
 
 }
